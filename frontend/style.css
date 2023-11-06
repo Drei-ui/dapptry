@@ -8,8 +8,12 @@ body{
     width: 100%;
     display: flex;
     flex-direction: column;
-    font-family: Helvetica, sans-serif;
+    font-family: 'Merriweather', serif;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Raleway', sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-align: center;
+    background-color: #FEFBF6;
 }
 
 #connectMetamask{
@@ -19,24 +23,27 @@ body{
     justify-content: space-between;
     align-items: center;
     box-shadow: lightgray 0px 5px 10px;
+    background-color: #3D3C42;
     margin-bottom: 20px;
 }
     #connectWalletMessage{
         font-size: large;
         font-weight: bold;
+        color: whitesmoke;
     }
 
     #connectWallet{
+        font-size: 20px;
         padding: 10px 20px;
         border: none;
         border-radius: 5px;
         color: white;
-        background-color: blue;
+        background-color: #82A0D8;
     }
 
     #connectWallet:active{
-        color: blue;
-        background-color: white;
+        color:  #82A0D8;
+        background-color: whitesmoke;
     }
 
 #votingStation{
@@ -105,8 +112,8 @@ body{
             #sendVote{
                 margin: 10px;
                 font-size: larger;
-                color: white;
-                background-color: green;
+                color: black;
+                background-color: #D9CAB3;
                 padding: 10px 20px;
                 border-radius: 10px;
                 border: none;
@@ -125,12 +132,12 @@ body{
             border: none;
             border-radius: 5px;
             color: black;
-            background-color: yellow;
+            background-color: #ECEE81;
         }
 
             #showResult:active{
                 color: black;
-                background-color: yellow;
+                background-color: #ECEE81;
             }
 
     #result{
@@ -148,7 +155,7 @@ body{
         font-weight: bold;
         padding: 20px;
         margin: 10px auto;
-        border-top: 2px solid black;
+        border-top: 3px solid black;
         display: none;
         flex-direction: column;
     }
@@ -162,7 +169,7 @@ body{
             justify-content: center;
             align-items: baseline;
         }
-            #startElection, #addCandidate{
+            #startAnElection, #addCandidate{
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -175,19 +182,19 @@ body{
                 border-radius: 10px;
             }
 
-                #startElection input, #addCandidate input{
+                #startAnElection input, #addCandidate input{
                     padding: 5px 10px;
                     margin: 5px;
                     border: 1px solid gray;
                     border-radius: 5px;
                 }
 
-                #startElection button, #addCandidate button{
+                #startAnElection button, #addCandidate button{
                     font-size: large;
                     padding: 5px 10px;
                     margin: 5px;
-                    color: white;
-                    background-color: green;
+                    color: black;
+                    background-color: #D9CAB3;
                     border: none;
                     border-radius: 5px;
                 }
