@@ -316,7 +316,7 @@ const getResult = async function(){
 
     let resultBoard = document.createElement("table");
     resultBoard.id = "resultBoard";
-    result.appendChild("resultBoard");
+    result.appendChild(resultBoard);
 
     let tableHeader = document.createElement("tr");
     tableHeader.innerHTML = `<td>2</td>
@@ -334,29 +334,50 @@ const getResult = async function(){
     }
 }
 
-const refreshPage = function() {
-    setInterval(async() => {
-        let time = await contract.electionTimer();
+// Function to format remaining time as hours, minutes, and seconds
+const formatTime = (timeInSeconds) => {
+  const hours = Math.floor(timeInSeconds / 3600);
+  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+  const seconds = timeInSeconds % 60;
 
-        if(time > 0){
-            timerMessage.innerHTML = `<span id="time">${time}</span> second/s left`;
-            voteForm.style.display = 'flex';
-            showResultContainer.style.display = 'none';
-        } 
-        else{
-            timerMessage.textContent = "No election yet or election already ended";
-            voteForm.style.display = "none";
-            showResultContainer.style.display = 'block';
-          }
-    }, 10000);
-      setInterval(async() => {
-          getAllCandidates();
-    }, 10000)
+  const formattedTime = `${hours} hours ${minutes} minutes ${seconds} seconds`;
+  return formattedTime;
 }
 
-const sendVote = async function(){
-    await contract.voteTo(vote.value);
-    vote.value = "";
+// Update the refreshPage function to use the formatted time
+const refreshPage = function() {
+  setInterval(async () => {
+      const timeInSeconds = await contract.electionTimer();
+      if (timeInSeconds > 0) {
+          const formattedTime = formatTime(timeInSeconds);
+          timerMessage.innerHTML = `<span id="time">${formattedTime}</span> left`;
+          voteForm.style.display = 'flex';
+          showResultContainer.style.display = 'none';
+      } else {
+          timerMessage.textContent = "No election yet or election already ended";
+          voteForm.style.display = "none";
+          showResultContainer.style.display = 'block';
+      }
+  }, 1000); // Update every second
+  setInterval(async() => {
+      getAllCandidates();
+  }, 10000);
+}
+const sendVote = async function() {
+  if (await hasVoted(signer.getAddress())) {
+      // Voter has already voted
+      alert("You have already voted.");
+  } else {
+      // Voter has not voted, so proceed with voting
+      await contract.voteTo(vote.value);
+      vote.value = "";
+  }
+}
+
+// Function to check if the voter has already voted
+const hasVoted = async (voterAddress) => {
+  const hasVoted = await contract.voterStatus(voterAddress);
+  return hasVoted;
 }
 
 const startElection = async function(){
@@ -407,11 +428,10 @@ const getAccount = async function(){
 
     let time = await contract.electionTimer();
     if(time == 0){
-        contract.checkElectionPeriod();
-    }
-  }
-  votingStation.style.display = "block";
-
+      contract.checkElectionPeriod();
+    } //Uncomment after first iteration of the voting
+}
+  votingStation.style.display = "block"
   refreshPage();
   getAllCandidates();
 };
